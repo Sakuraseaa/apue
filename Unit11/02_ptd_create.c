@@ -1,3 +1,13 @@
+/**
+ * @file 01pthread_create.c
+ * @author your name (you@domain.com)
+ * @brief 打印线程ID.
+ * @version 0.1
+ * @date 2024-09-25
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include "apue.h"
 #include <pthread.h>
 
