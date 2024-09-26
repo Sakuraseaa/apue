@@ -1,7 +1,7 @@
 /**
  * @file 11_ptd_deadlock.c
  * @author your name (you@domain.com)
- * @brief æœ¬ç¤ºä¾‹å±•ç¤ºäº†2ä¸ªé”çš„ä½¿ç”¨æ–¹æ³•ï¼Œé€šè¿‡ä»”ç»†æŽ§åˆ¶åŠ é”é¡ºåºä¸€è‡´ï¼Œæ¥é¿å…æ­»é”
+ * @brief ÖØÐÂÉè¼Æ¼ÓËøË¼Â·£¬Ê¹µÃ´úÂë¼ò»¯
  * @version 0.1
  * @date 2024-09-26
  * 
@@ -16,11 +16,11 @@
 #define HASH(id) (((unsigned long)id)%NHASH)
 
 struct foo* fh[NHASH];
-pthread_mutex_t hashlock = PTHREAD_MUTEX_INITIALIZER; // !B::ç¡®ä¿ fh ç»“æž„ä½“ï¼Œè¢«ä¿®æ”¹çš„æ—¶å€™çš„ä¸€è‡´æ€§
+pthread_mutex_t hashlock = PTHREAD_MUTEX_INITIALIZER; // !B::È·±£½á¹¹ÒýÓÃ£¬±»ÐÞ¸ÄµÄÊ±ºòµÄÒ»ÖÂÐÔ
 
 typedef struct foo {
     int f_count;
-    pthread_mutex_t f_lock; // !A::ç¡®ä¿foo_tç»“æž„ä½“ï¼Œä¿®æ”¹æ—¶å€™çš„ä¸€è‡´æ€§
+    pthread_mutex_t f_lock; // !A::ÓÃÓÚ±£»¤foo½á¹¹ÖÐµÄÆäËûÈÎºÎ¶«Î÷
     int f_id;
     struct foo *f_next; // protected by hashlock
     /* ...more stuff here...*/
@@ -56,9 +56,9 @@ foo_t* foo_alloc(int id) {  // allocate the object
 // add a reference to the object
 void fool_hold(foo_t* fp) {
     
-    pthread_mutex_lock(&fp->f_lock);
+    pthread_mutex_lock(&hashlock);
     fp->f_count++;
-    pthread_mutex_unlock(&fp->f_lock);
+    pthread_mutex_unlock(&hashlock);
 }
 
 // find an existing object
@@ -68,7 +68,7 @@ foo_t* foo_find(int id) {
     pthread_mutex_lock(&hashlock);
     for (fp = fh[HASH(id)]; fp != NULL; fp = fp->f_next) {
         if (fp->f_id == id) {
-            fool_hold(fp);
+            fp->f_count++;
             break;
         }
     }
@@ -83,19 +83,8 @@ void foo_rele(foo_t* fp) {
     struct foo *tfp;
     int idx;
 
-    pthread_mutex_lock(&fp->f_lock);
+    pthread_mutex_lock(&hashlock);
     if(fp->f_count == 1) {
-        pthread_mutex_unlock(&fp->f_lock);
-        
-        pthread_mutex_lock(&hashlock);
-        pthread_mutex_lock(&fp->f_lock);
-        /*need to recheck the condition*/
-        if (fp->f_count != 1) {
-            fp->f_count--;
-            pthread_mutex_unlock(&fp->f_lock);
-            pthread_mutex_unlock(&hashlock);
-            return;
-        }
 
         /* remove from list */
         idx = HASH(fp->f_id);
@@ -108,11 +97,9 @@ void foo_rele(foo_t* fp) {
             tfp->f_next = fp->f_next;
         }
         pthread_mutex_unlock(&hashlock);
-        pthread_mutex_unlock(&fp->f_lock);
         pthread_mutex_destroy(&fp->f_lock);
         free(fp);
     } else {
-        fp->f_count--;
-        pthread_mutex_unlock(&fp->f_lock);
+        pthread_mutex_unlock(&hashlock);
     }
 }

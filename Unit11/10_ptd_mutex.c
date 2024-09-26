@@ -1,3 +1,13 @@
+/**
+ * @file 10_ptd_mutex.c
+ * @author your name (you@domain.com)
+ * @brief 本示例展示了互斥量 / 锁的玩法
+ * @version 0.1
+ * @date 2024-09-26
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include <stdlib.h>
 #include <pthread.h>
 

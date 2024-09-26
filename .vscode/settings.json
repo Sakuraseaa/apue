@@ -2,6 +2,7 @@
     "files.associations": {
         "types.h": "c",
         "pthread.h": "c",
-        "apue.h": "c"
+        "apue.h": "c",
+        "pthreadtypes.h": "c"
     }
 }
