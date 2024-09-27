@@ -51,6 +51,5 @@ int main(void) {
     }
     printf("thread2 exit code %ld\n", (long)tret);
     exit(0);
-
 }
 

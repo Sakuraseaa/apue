@@ -1,14 +1,3 @@
-/**
- * @file 03pthread_exit.c
- * @author your name (you@domain.com)
- * @brief pthread_exit参数的不正确使用
- * @version 0.1
- * @date 2024-09-25
- * 
- * @copyright Copyright (c) 2024
- * 
- */
-
 #include "apue.h"
 #include <pthread.h>
 
@@ -27,10 +16,15 @@ void printfoo(const char*s, const struct foo* fp)
 }
 
 void* thr_fnl(void* arg) {
-    foo_t foo = {1, 2, 3, 4};
+    foo_t* foo = malloc(sizeof(foo_t));
+    
+    foo->a = 1;
+    foo->b = 2;
+    foo->c = 3;
+    foo->d = 4;
 
-    printfoo("thread1: \n", &foo);
-    pthread_exit((void*)&foo);
+    printfoo("thread1: \n", foo);
+    pthread_exit((void*)foo);
 }
 
 void* fn2(void* arg) {

@@ -1,0 +1,7 @@
+1. 给每个job结构体，添加一个互斥量(锁)和引用计数，用来保护job结构体成员，被修改时候的一致性
+2. 然后写一个id修改函数比如
+ void changeId(newid, phread) {
+    lock;
+    pthread.oldid = newid
+    unlock;
+ }

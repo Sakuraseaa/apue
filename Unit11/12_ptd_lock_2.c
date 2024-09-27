@@ -19,7 +19,7 @@ struct foo* fh[NHASH];
 pthread_mutex_t hashlock = PTHREAD_MUTEX_INITIALIZER; // !B::确保结构引用，被修改的时候的一致性
 
 typedef struct foo {
-    int f_count;
+    int f_count;        // protectd by hashlock
     pthread_mutex_t f_lock; // !A::用于保护foo结构中的其他任何东西
     int f_id;
     struct foo *f_next; // protected by hashlock

@@ -2,6 +2,9 @@
  * @file 14_ptd_more.c
  * @author your name (you@domain.com)
  * @brief 作业请求队列由单个读写锁保护。多个工作线程获取单个主线程分配给他们的作业
+ * 读写锁 也有带有超时的读写锁
+ * pthread_rwlock_timedrlock();
+ * pthread_rwlock_timedwrlock();
  * @version 0.1
  * @date 2024-09-27
  * 
@@ -68,5 +71,43 @@ void job_append(queue_t* qp, job_t* jp) {
 
 // remove the given job from a queue
 void job_remove(queue_t* qp, job_t* jp) {
-    
+
+    pthread_rwlock_wrlock(&qp->q_lock);
+    if (jp == qp->q_head) {
+        qp->q_head = jp->j_next;
+        if (qp->q_tail == jp)
+            qp->q_tail = NULL;
+        else
+            jp->j_next->j_prev = jp->j_prev;
+    } else if (jp == qp->q_tail) {
+        qp->q_tail = jp->j_prev;
+        jp->j_prev->j_next = jp->j_next;
+    } else {
+        jp->j_prev->j_next = jp->j_next;
+        jp->j_next->j_prev = jp->j_prev;
+    }
+    pthread_rwlock_unlock(&qp->q_lock);
 }
+
+// Find a job for the given thread ID.
+job_t* job_find(queue_t* qp, pthread_t id) {
+    job_t* jp;
+    if(pthread_rwlock_rdlock(&qp->q_lock) != 0)
+        return NULL;
+    
+    for (jp = qp->q_head; jp != NULL; jp = jp->j_next)
+        if(pthread_equal(jp->j_id, id))
+            break;
+    pthread_rwlock_unlock(&qp->q_lock);
+    return jp;
+}
+
+int main() {
+    queue_t qt;
+    job_t jt;
+
+    queue_init(&qt);
+    job_insert(&qt, &jt);
+    job_remove(&qt, &jt);
+}
+
