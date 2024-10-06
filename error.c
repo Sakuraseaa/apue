@@ -299,3 +299,32 @@ ssize_t writen(int fd, const void * ptr ,size_t n)
     }
     return (n-nleft);
 }
+
+/**
+ * @brief 解析进程终止状态
+ * 
+ */
+
+/* Macros for constructing status values.  */
+#define	__W_EXITCODE(ret, sig)	((ret) << 8 | (sig))
+#define	__W_STOPCODE(sig)	((sig) << 8 | 0x7f)
+#define __W_CONTINUED		0xffff
+#define	__WCOREFLAG		0x80
+/* Nonzero if STATUS indicates the child dumped core.  */
+#define WCOREDUMP 
+#define	_WCOREDUMP(status)	((status) & __WCOREFLAG)
+void pr_exit(int status) {
+
+    if (WIFEXITED(status)) {
+        printf("normal termination, exit status = %d\n", WEXITSTATUS(status));
+    } else if (WIFSIGNALED(status)) {
+        printf("abrnormal termination, signal number=%d%s\n", WTERMSIG(status), 
+#ifdef WCOREDUMP
+        _WCOREDUMP(status) ? " core file generated" : "");
+#else   
+        "");
+#endif
+    } else if (WIFSTOPPED(status)) {
+        printf("child stopped, signal number=%d\n", WSTOPSIG(status));
+    }
+}
