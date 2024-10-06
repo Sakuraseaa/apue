@@ -1,0 +1,5 @@
+a write to stdou
+before fork
+pid = 29720, glob = 7, var = 89
+before fork
+pid = 29719, glob = 6, var = 88
