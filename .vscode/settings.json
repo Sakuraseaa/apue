@@ -4,5 +4,6 @@
         "pthread.h": "c",
         "apue.h": "c",
         "pthreadtypes.h": "c"
-    }
+    },
+    "C_Cpp.suggestSnippets": true
 }
