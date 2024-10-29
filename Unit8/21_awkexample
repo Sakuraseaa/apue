@@ -1,0 +1,10 @@
+#!/usr/bin/awk -f
+# Note: on Salaris, use nawk instead
+
+BEGIN {
+    for(i = 0; i < ARGC; i++)
+        printf "ARGC[%d] = %s\n", i, ARGV[i]
+    exit
+}
+
+# 执行命令 /bin/awk -f /home/steven/ali1/apue/Unit8/21_awkexample fiel Sk f3

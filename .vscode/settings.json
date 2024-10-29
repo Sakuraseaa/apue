@@ -3,7 +3,11 @@
         "types.h": "c",
         "pthread.h": "c",
         "apue.h": "c",
-        "pthreadtypes.h": "c"
+        "pthreadtypes.h": "c",
+        "errno.h": "c",
+        "errno-base.h": "c",
+        "wait.h": "c",
+        "unistd.h": "c"
     },
     "C_Cpp.suggestSnippets": true
 }
