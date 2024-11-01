@@ -1,0 +1,60 @@
+Directory FD: 3
+Close-on-exec flag is set
+Contents of /:
+Found: lib32
+Found: .
+Found: cdrom
+Found: run
+Found: swapfile
+Found: opt
+Found: var
+Found: snap
+Found: lib
+Found: root
+Found: proc
+Found: home
+Found: boot
+Found: mnt
+Found: lost+found
+Found: bin
+Found: media
+Found: sbin
+Found: ..
+Found: usr
+Found: srv
+Found: dev
+Found: libx32
+Found: tmp
+Found: sys
+Found: lib64
+Found: etc
+Re-opened Directory FD: 3
+Re-opened Close-on-exec flag is set
+Contents of / after re-opening:
+Found: lib32
+Found: .
+Found: cdrom
+Found: run
+Found: swapfile
+Found: opt
+Found: var
+Found: snap
+Found: lib
+Found: root
+Found: proc
+Found: home
+Found: boot
+Found: mnt
+Found: lost+found
+Found: bin
+Found: media
+Found: sbin
+Found: ..
+Found: usr
+Found: srv
+Found: dev
+Found: libx32
+Found: tmp
+Found: sys
+Found: lib64
+Found: etc

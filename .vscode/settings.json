@@ -7,7 +7,8 @@
         "errno.h": "c",
         "errno-base.h": "c",
         "wait.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "stdlib.h": "c"
     },
     "C_Cpp.suggestSnippets": true
 }

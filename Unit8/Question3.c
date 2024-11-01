@@ -8,7 +8,7 @@
 
 void exit_state_print(siginfo_t* siginfo) {
 
-      if (siginfo->si_code == CLD_EXITED) {
+    if (siginfo->si_code == CLD_EXITED) {
         printf("normal termination, exit status = %d\n", siginfo->si_status);
     } else if (siginfo->si_code==CLD_KILLED || siginfo->si_code==CLD_DUMPED) {
         printf("abnormal termination, signal number = %d%s\n", siginfo->si_status,
