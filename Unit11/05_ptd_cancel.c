@@ -21,25 +21,28 @@ void cleanup(void* arg) {
 
 void* fn1(void* arg) {
     printf("thread 1 start\n");
-    // pthread_cleanup_push(cleanup, "thread 1 first handler");
-    // pthread_cleanup_push(cleanup, "thread 1 second handler");
+    pthread_cleanup_push(cleanup, "thread 1 first handler");
+    pthread_cleanup_push(cleanup, "thread 1 second handler");
     printf("thread 1 push complete\n");
     if(arg)
         return ((void*)1);
-    // pthread_cleanup_pop(0);
-    // pthread_cleanup_pop(0);
+    pthread_cleanup_pop(0);
+    pthread_cleanup_pop(0);
     return ((void*)1);
 }
 
 void *fn2(void* arg) {
     printf("thread 2 start\n");
     pthread_cleanup_push(cleanup, "thread 2 first handler");
-   // pthread_cleanup_push(cleanup, "thread 2 second handler");
+    pthread_cleanup_push(cleanup, "thread 2 second handler");
     printf("thread 2 push complete\n");
     if(arg)
         pthread_exit((void*)2);
+    
+    // pthread_cleanup_pop参数，值为 0 时，清理函数不会被执行。
+    // 值为非零时（通常为 1），清理函数会被立即调用。
     pthread_cleanup_pop(0);
-    // pthread_cleanup_pop(0);
+    pthread_cleanup_pop(0);
     return ((void*)2);
 }
 

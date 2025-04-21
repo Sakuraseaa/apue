@@ -1,4 +1,13 @@
-//shell程序的基本实施部分,基本逻辑
+/**
+ * @file 1_10_signal.c  SIGNAL
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2025-04-21
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -19,8 +28,9 @@
 
 
 static void sig_int(int signo) {
-    printf("\ninterrupt\n$$$ ");
+    printf("\ninterrupt\n%%");
 }
+
 int main(void) {
     char buf[MAXLINE];
     pid_t pid;
